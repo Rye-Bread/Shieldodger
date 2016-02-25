@@ -25,6 +25,9 @@ BasicGame.Game = function (game) {
 
 //var map;
     var player;
+    var enemy;
+    var pointer;
+    //var score = 0;
 };
 //var map;
 
@@ -41,6 +44,9 @@ BasicGame.Game.prototype = {
         //layer.resizeWorld();
         var map = this.add.image(0,0,'map');
         //map.setCollisionBetween(54, 83);
+        this.music = this.add.audio('music');
+        this.music.play();
+        this.music.loop = true;
         
         //PLAYER STUFF
         player = this.add.sprite(48, 48, 'player', 1);
@@ -53,7 +59,14 @@ BasicGame.Game.prototype = {
 
         player.body.setSize(10, 14, 2, 1);
         player.body.collideWorldBounds = true;//This for every kind of object we want to hit worldbounds.
+        
+        
+        pointer = this.add.sprite(500, 350, 'arrow');
+        enemy = this.add.sprite(500, 350, 'enemy');
         cursors = this.input.keyboard.createCursorKeys();
+        //enemy.animations.add('moving', [1,2,3,4,5,6], 10, true);
+        this.physics.enable(pointer, Phaser.Physics.ARCADE);
+        this.physics.enable(enemy, Phaser.Physics.ARCADE);
 
     var help = this.add.text(16, 16, 'Arrows to move', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
@@ -61,35 +74,52 @@ BasicGame.Game.prototype = {
     },
 
     update: function () {
+        var speed = 300;
+        //pointer.body.velocity.x = 0;
+        //pointer.body.velocity.y = 0;
+        //enemy.body.velocity.x = 0;
+        //enemy.body.velocity.y = 0;
+        pointer.x = enemy.x;
+        pointer.y = enemy.y;
+        //game.physics.arcade.velocityFromAngle(sprite.angle, 300, player.body.velocity);
+        
+        //game.physics.arcade.overlap(enemy, player, gothit, null, this);
 
         //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
         player.body.velocity.set(0);
 
         if (cursors.left.isDown)
         {
-            player.body.velocity.x = -100;
+            player.body.velocity.x = -speed;
             player.play('left');
         }
         else if (cursors.right.isDown)
         {
-            player.body.velocity.x = 100;
+            player.body.velocity.x = speed;
             player.play('right');
         }
         else if (cursors.up.isDown)
         {
-            player.body.velocity.y = -100;
+            player.body.velocity.y = -speed;
             player.play('up');
         }
         else if (cursors.down.isDown)
         {
-            player.body.velocity.y = 100;
+            player.body.velocity.y = speed;
             player.play('down');
         }
         else
         {
             player.animations.stop();
         }
+        pointer.rotation = this.physics.arcade.angleBetween(pointer, player);
 
+    },
+    
+    gothit: function (enemy, player)
+    {
+        player.kill();
+        //score = 0;
     },
 
     quitGame: function (pointer) {

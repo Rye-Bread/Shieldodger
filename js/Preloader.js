@@ -28,10 +28,13 @@ BasicGame.Preloader.prototype = {
         //this.load.atlas('playButton', 'assets/playbutton.png', 'assets/startbutton.json');
         this.load.image('playButton','assets/playbutton.png');
         this.load.audio('titleMusic', ['assets/Random_thing.mp3']);
+        this.load.audio('music', ['assets/Neon at Midnight.mp3']);
 ////this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
         this.load.image('map', 'assets/Background.png');
         this.load.tilemap('collision', 'assets/Collisionmap_Collision Layer.csv', null, Phaser.Tilemap.CSV);
         this.load.spritesheet('player', 'assets/spaceman.png', 16, 16);
+        this.load.image('enemy', 'assets/aqua_ball.png');
+        this.load.image('arrow','assets/arrow.png');
         
 		//	+ lots of other required assets here
 
